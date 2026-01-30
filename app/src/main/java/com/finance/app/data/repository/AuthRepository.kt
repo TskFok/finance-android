@@ -8,7 +8,7 @@ import com.finance.app.data.remote.dto.LoginResponse
 import com.finance.app.data.remote.dto.RegisterRequest
 import com.finance.app.util.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class AuthRepository(
     private val apiService: ApiService,
@@ -72,7 +72,6 @@ class AuthRepository(
         preferencesManager.clear()
     }
     
-    fun isLoggedIn(): Flow<Boolean> = flow {
-        emit(preferencesManager.getTokenSync() != null)
-    }
+    /** 随 DataStore 中 token 变化而更新，401 清除 token 后会自动变为 false，用于跳转登录页 */
+    fun isLoggedIn(): Flow<Boolean> = preferencesManager.token.map { it != null }
 }

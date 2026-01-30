@@ -46,7 +46,12 @@ object NetworkModule {
                 originalRequest
             }
             
-            chain.proceed(newRequest)
+            val response = chain.proceed(newRequest)
+            // 401 表示 token 过期或无效，清除本地 token 并让 NavGraph 跳转登录页
+            if (response.code == 401) {
+                runBlocking { preferencesManager.clear() }
+            }
+            response
         }
         
         return OkHttpClient.Builder()
