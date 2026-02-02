@@ -3066,7 +3066,7 @@ private fun ChatHistoryItem(
                         text = userText,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 6,
+                        maxLines = 12,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .background(
@@ -3087,7 +3087,7 @@ private fun ChatHistoryItem(
                         text = aiText,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 10,
+                        maxLines = 20,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .background(
@@ -3356,7 +3356,7 @@ private fun AnalysisHistoryItem(
                     text = resultText,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 12,
+                    maxLines = 24,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .background(
