@@ -3034,9 +3034,9 @@ private fun ChatHistoryItem(
     item: AIChatHistory,
     onClick: () -> Unit
 ) {
-    val userPreview = item.userText?.take(80)?.let { if (it.length == 80) "$it…" else it }.orEmpty()
-    val aiPreview = item.aiText?.take(120)?.let { if (it.length == 120) "$it…" else it }.orEmpty()
-    val hasContent = !userPreview.isBlank() || !aiPreview.isBlank()
+    val userText = item.userText.orEmpty()
+    val aiText = item.aiText.orEmpty()
+    val hasContent = userText.isNotBlank() || aiText.isNotBlank()
 
     Row(
         modifier = Modifier
@@ -3057,16 +3057,16 @@ private fun ChatHistoryItem(
         )
         Spacer(modifier = Modifier.width(14.dp))
         Column(modifier = Modifier.weight(1f)) {
-            if (!userPreview.isBlank()) {
+            if (userText.isNotBlank()) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = userPreview,
+                        text = userText,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 2,
+                        maxLines = 6,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .background(
@@ -3076,18 +3076,18 @@ private fun ChatHistoryItem(
                             .padding(horizontal = 14.dp, vertical = 8.dp)
                     )
                 }
-                if (!aiPreview.isBlank()) Spacer(modifier = Modifier.height(8.dp))
+                if (aiText.isNotBlank()) Spacer(modifier = Modifier.height(8.dp))
             }
-            if (!aiPreview.isBlank()) {
+            if (aiText.isNotBlank()) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Start
                 ) {
                     Text(
-                        text = aiPreview,
+                        text = aiText,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 3,
+                        maxLines = 10,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .background(
@@ -3310,9 +3310,8 @@ private fun AnalysisHistoryItem(
     item: AIAnalysisHistory,
     onClick: () -> Unit
 ) {
-    val dateRangeText = "${item.startDate ?: "—"} 至 ${item.endDate ?: "—"
-}"
-    val resultPreview = item.result?.take(120)?.let { if (it.length == 120) "$it…" else it }.orEmpty()
+    val dateRangeText = "${item.startDate ?: "—"} 至 ${item.endDate ?: "—"}"
+    val resultText = item.result.orEmpty()
 
     Row(
         modifier = Modifier
@@ -3352,12 +3351,12 @@ private fun AnalysisHistoryItem(
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            if (!resultPreview.isBlank()) {
+            if (resultText.isNotBlank()) {
                 Text(
-                    text = resultPreview,
+                    text = resultText,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 3,
+                    maxLines = 12,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .background(
