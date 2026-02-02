@@ -2930,7 +2930,7 @@ fun ChatHistoryDialog(
                             .fillMaxWidth()
                             .heightIn(max = 480.dp),
                         verticalArrangement = Arrangement.spacedBy(0.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp, bottom = 32.dp)
+                        contentPadding = PaddingValues(start = 20.dp, top = 8.dp, end = 20.dp, bottom = 32.dp)
                     ) {
                         items(
                             items = history,
