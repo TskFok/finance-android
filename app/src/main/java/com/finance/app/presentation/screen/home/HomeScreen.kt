@@ -732,7 +732,7 @@ fun ExpenseListScreen(
                                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                                 )
                                                 Text(
-                                                    expense.expenseTime,
+                                                    DateUtils.formatDateTime(expense.expenseTime),
                                                     style = MaterialTheme.typography.bodySmall,
                                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                                 )
@@ -1853,7 +1853,7 @@ fun IncomeListScreen(
                                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                                 )
                                                 Text(
-                                                    income.incomeTime,
+                                                    DateUtils.formatDateTime(income.incomeTime),
                                                     style = MaterialTheme.typography.bodySmall,
                                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                                 )

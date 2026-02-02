@@ -46,6 +46,40 @@ object DateUtils {
     }
     
     /**
+     * 格式化日期时间为年月日时分秒（格式：yyyy-MM-dd HH:mm:ss）
+     * 支持解析 yyyy-MM-dd、yyyy-MM-dd HH:mm:ss、ISO 8601 等常见格式
+     */
+    fun formatDateTime(dateTimeString: String?): String {
+        if (dateTimeString.isNullOrBlank()) return "—"
+        return try {
+            val date = parseDateTime(dateTimeString)
+            if (date != null) dateTimeFormat.format(date) else dateTimeString
+        } catch (e: Exception) {
+            dateTimeString
+        }
+    }
+    
+    /**
+     * 解析日期时间字符串，支持多种格式
+     */
+    private fun parseDateTime(dateTimeString: String): Date? {
+        val trimmed = dateTimeString.trim()
+        val formatters = listOf(
+            dateTimeFormat,  // yyyy-MM-dd HH:mm:ss
+            dateFormat,     // yyyy-MM-dd
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()),
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault()),
+            SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+        )
+        for (formatter in formatters) {
+            try {
+                formatter.parse(trimmed)?.let { return it }
+            } catch (_: Exception) { }
+        }
+        return null
+    }
+    
+    /**
      * 解析日期字符串
      */
     fun parseDate(dateString: String): Date? {
