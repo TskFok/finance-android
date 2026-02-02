@@ -345,7 +345,8 @@ fun ProfileScreen(
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
                         ),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                        border = null
                     ) {
                         Column(modifier = Modifier.padding(20.dp)) {
                             Row(
@@ -408,7 +409,7 @@ fun ProfileScreen(
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Text(
-                                    "注册时间：${user.createdAt ?: "未知"}",
+                                    "注册时间：${DateUtils.formatDateTime(user.createdAt)}",
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
