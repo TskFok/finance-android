@@ -61,18 +61,23 @@ object DateUtils {
     
     /**
      * 解析日期时间字符串，支持多种格式
+     * 接口常见格式：2026-02-02T11:24:12+08:00（ISO 8601 带时区）需优先匹配
      */
     private fun parseDateTime(dateTimeString: String): Date? {
         val trimmed = dateTimeString.trim()
         val formatters = listOf(
+            // 带时区的 ISO 8601（接口返回格式，必须优先于 yyyy-MM-dd 否则会只解析到日期）
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault()),
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault()),
             dateTimeFormat,  // yyyy-MM-dd HH:mm:ss
-            dateFormat,     // yyyy-MM-dd
             SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()),
             SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault()),
-            SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+            SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()),
+            dateFormat       // yyyy-MM-dd（放最后，避免误匹配带时间的字符串）
         )
         for (formatter in formatters) {
             try {
+                formatter.isLenient = false
                 formatter.parse(trimmed)?.let { return it }
             } catch (_: Exception) { }
         }

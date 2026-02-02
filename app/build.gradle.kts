@@ -22,8 +22,8 @@ android {
         applicationId = "com.finance.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
 
         // 从 local.properties 读取 BASE_URL，如果没有则使用默认值
         val baseUrl = keystoreProperties.getProperty("BASE_URL")
