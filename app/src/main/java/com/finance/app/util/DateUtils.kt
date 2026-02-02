@@ -104,4 +104,26 @@ object DateUtils {
         val month = calendar.get(Calendar.MONTH) + 1
         return String.format("%04d-%02d", year, month)
     }
+
+    /**
+     * 格式化为相对时间（如「刚刚」「5分钟前」「昨天 14:30」）
+     */
+    fun formatRelativeTime(dateTimeString: String?): String {
+        if (dateTimeString.isNullOrBlank()) return "—"
+        val date = parseDateTime(dateTimeString) ?: return dateTimeString
+        val now = Date()
+        val diffMs = now.time - date.time
+        val diffSec = diffMs / 1000
+        val diffMin = diffSec / 60
+        val diffHour = diffMin / 60
+        val diffDay = diffHour / 24
+        return when {
+            diffSec < 60 -> "刚刚"
+            diffMin < 60 -> "${diffMin}分钟前"
+            diffHour < 24 -> "${diffHour}小时前"
+            diffDay == 1L -> "昨天 " + SimpleDateFormat("HH:mm", Locale.getDefault()).format(date)
+            diffDay < 7 -> "${diffDay}天前"
+            else -> SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).format(date)
+        }
+    }
 }
