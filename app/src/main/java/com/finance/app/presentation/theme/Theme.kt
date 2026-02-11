@@ -8,37 +8,58 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.core.view.WindowCompat
 
-// 现代化的颜色方案 - 使用柔和的蓝色和绿色
-private val DarkColorScheme = darkColorScheme(
-    primary = androidx.compose.ui.graphics.Color(0xFF6C9BD2),
-    secondary = androidx.compose.ui.graphics.Color(0xFF4CAF50),
-    tertiary = androidx.compose.ui.graphics.Color(0xFF81C784),
-    background = androidx.compose.ui.graphics.Color(0xFF121212),
-    surface = androidx.compose.ui.graphics.Color(0xFF1E1E1E),
-    surfaceVariant = androidx.compose.ui.graphics.Color(0xFF2C2C2C),
-    onPrimary = androidx.compose.ui.graphics.Color(0xFFFFFFFF),
-    onSecondary = androidx.compose.ui.graphics.Color(0xFFFFFFFF),
-    onBackground = androidx.compose.ui.graphics.Color(0xFFE0E0E0),
-    onSurface = androidx.compose.ui.graphics.Color(0xFFE0E0E0),
-    error = androidx.compose.ui.graphics.Color(0xFFCF6679)
+/**
+ * Titanium 风格配色方案 - 参考 screen-2.html 深色科技感设计
+ * 背景 #050505，卡片 #0f0f0f，边框 #222，正数绿 #4ade80
+ */
+private val TitaniumDarkColorScheme = darkColorScheme(
+    primary = TitaniumColors.TextPrimary,
+    onPrimary = TitaniumColors.Background,
+    primaryContainer = TitaniumColors.SurfaceVariant,
+    onPrimaryContainer = TitaniumColors.TextSecondary,
+    secondary = TitaniumColors.Positive,
+    onSecondary = TitaniumColors.Background,
+    tertiary = TitaniumColors.MetalAccent,
+    onTertiary = TitaniumColors.Background,
+    background = TitaniumColors.Background,
+    onBackground = TitaniumColors.TextPrimary,
+    surface = TitaniumColors.Surface,
+    onSurface = TitaniumColors.TextSecondary,
+    surfaceVariant = TitaniumColors.SurfaceVariant,
+    onSurfaceVariant = TitaniumColors.TextMuted,
+    outline = TitaniumColors.Border,
+    outlineVariant = TitaniumColors.BorderVariant,
+    error = TitaniumColors.Error,
+    onError = TitaniumColors.TextPrimary
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = androidx.compose.ui.graphics.Color(0xFF2196F3),
-    secondary = androidx.compose.ui.graphics.Color(0xFF4CAF50),
-    tertiary = androidx.compose.ui.graphics.Color(0xFF66BB6A),
-    background = androidx.compose.ui.graphics.Color(0xFFF5F5F5),
-    surface = androidx.compose.ui.graphics.Color(0xFFFFFFFF),
-    surfaceVariant = androidx.compose.ui.graphics.Color(0xFFF0F0F0),
-    onPrimary = androidx.compose.ui.graphics.Color(0xFFFFFFFF),
-    onSecondary = androidx.compose.ui.graphics.Color(0xFFFFFFFF),
-    onBackground = androidx.compose.ui.graphics.Color(0xFF212121),
-    onSurface = androidx.compose.ui.graphics.Color(0xFF212121),
-    error = androidx.compose.ui.graphics.Color(0xFFB00020)
+/**
+ * 浅色模式 - 保持 Titanium 品牌色调的浅色变体
+ */
+private val TitaniumLightColorScheme = lightColorScheme(
+    primary = Color(0xFF1F2937),
+    onPrimary = Color(0xFFFFFFFF),
+    primaryContainer = Color(0xFFE5E7EB),
+    onPrimaryContainer = Color(0xFF111827),
+    secondary = Color(0xFF059669),
+    onSecondary = Color(0xFFFFFFFF),
+    tertiary = Color(0xFF374151),
+    onTertiary = Color(0xFFFFFFFF),
+    background = Color(0xFFF9FAFB),
+    onBackground = Color(0xFF111827),
+    surface = Color(0xFFFFFFFF),
+    onSurface = Color(0xFF1F2937),
+    surfaceVariant = Color(0xFFF3F4F6),
+    onSurfaceVariant = Color(0xFF6B7280),
+    outline = Color(0xFFD1D5DB),
+    outlineVariant = Color(0xFFE5E7EB),
+    error = Color(0xFFDC2626),
+    onError = Color(0xFFFFFFFF)
 )
 
 @Composable
@@ -46,15 +67,16 @@ fun FinanceAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+    val colorScheme = if (darkTheme) TitaniumDarkColorScheme else TitaniumLightColorScheme
     val view = LocalView.current
+
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
             val insetsController = WindowCompat.getInsetsController(window, view)
-            insetsController.isAppearanceLightStatusBars = darkTheme
-            @Suppress("DEPRECATION")
-            window.statusBarColor = colorScheme.primary.toArgb()
+            insetsController.isAppearanceLightStatusBars = !darkTheme
+            window.statusBarColor = colorScheme.background.toArgb()
+            window.navigationBarColor = colorScheme.surface.toArgb()
         }
     }
 
@@ -72,6 +94,9 @@ fun FinanceAppTheme(
             ),
             titleMedium = androidx.compose.material3.Typography().titleMedium.copy(
                 fontWeight = FontWeight.SemiBold
+            ),
+            labelSmall = androidx.compose.material3.Typography().labelSmall.copy(
+                fontWeight = FontWeight.Medium
             )
         ),
         content = content

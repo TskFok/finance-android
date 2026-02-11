@@ -57,6 +57,7 @@ import com.finance.app.presentation.viewmodel.AIViewModel
 import com.finance.app.presentation.viewmodel.AuthViewModel
 import com.finance.app.presentation.viewmodel.ExpenseViewModel
 import com.finance.app.presentation.viewmodel.IncomeViewModel
+import com.finance.app.presentation.theme.TitaniumColors
 import com.finance.app.util.DateUtils
 import com.finance.app.util.Resource
 import kotlin.math.cos
@@ -95,10 +96,11 @@ fun HomeScreen(
     var selectedTab by remember { mutableStateOf(0) }
     
     Scaffold(
+        containerColor = TitaniumColors.Background,
         bottomBar = {
             NavigationBar(
-                containerColor = MaterialTheme.colorScheme.surface,
-                tonalElevation = 8.dp
+                containerColor = TitaniumColors.Background.copy(alpha = 0.95f),
+                tonalElevation = 0.dp
             ) {
                 NavigationBarItem(
                     icon = {
@@ -112,9 +114,11 @@ fun HomeScreen(
                     selected = selectedTab == 0,
                     onClick = { selectedTab = 0 },
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = MaterialTheme.colorScheme.primary,
-                        selectedTextColor = MaterialTheme.colorScheme.primary,
-                        indicatorColor = MaterialTheme.colorScheme.primaryContainer
+                        selectedIconColor = TitaniumColors.TextPrimary,
+                        selectedTextColor = TitaniumColors.TextPrimary,
+                        unselectedIconColor = TitaniumColors.TextMuted,
+                        unselectedTextColor = TitaniumColors.TextMuted,
+                        indicatorColor = TitaniumColors.SurfaceVariant
                     )
                 )
                 NavigationBarItem(
@@ -129,9 +133,11 @@ fun HomeScreen(
                     selected = selectedTab == 1,
                     onClick = { selectedTab = 1 },
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = MaterialTheme.colorScheme.tertiary,
-                        selectedTextColor = MaterialTheme.colorScheme.tertiary,
-                        indicatorColor = MaterialTheme.colorScheme.tertiaryContainer
+                        selectedIconColor = TitaniumColors.Positive,
+                        selectedTextColor = TitaniumColors.Positive,
+                        unselectedIconColor = TitaniumColors.TextMuted,
+                        unselectedTextColor = TitaniumColors.TextMuted,
+                        indicatorColor = TitaniumColors.PositiveContainer
                     )
                 )
                 NavigationBarItem(
@@ -146,9 +152,11 @@ fun HomeScreen(
                     selected = selectedTab == 2,
                     onClick = { selectedTab = 2 },
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = MaterialTheme.colorScheme.primary,
-                        selectedTextColor = MaterialTheme.colorScheme.primary,
-                        indicatorColor = MaterialTheme.colorScheme.primaryContainer
+                        selectedIconColor = TitaniumColors.TextPrimary,
+                        selectedTextColor = TitaniumColors.TextPrimary,
+                        unselectedIconColor = TitaniumColors.TextMuted,
+                        unselectedTextColor = TitaniumColors.TextMuted,
+                        indicatorColor = TitaniumColors.SurfaceVariant
                     )
                 )
                 NavigationBarItem(
@@ -163,9 +171,11 @@ fun HomeScreen(
                     selected = selectedTab == 3,
                     onClick = { selectedTab = 3 },
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = MaterialTheme.colorScheme.primary,
-                        selectedTextColor = MaterialTheme.colorScheme.primary,
-                        indicatorColor = MaterialTheme.colorScheme.primaryContainer
+                        selectedIconColor = TitaniumColors.TextPrimary,
+                        selectedTextColor = TitaniumColors.TextPrimary,
+                        unselectedIconColor = TitaniumColors.TextMuted,
+                        unselectedTextColor = TitaniumColors.TextMuted,
+                        indicatorColor = TitaniumColors.SurfaceVariant
                     )
                 )
             }
