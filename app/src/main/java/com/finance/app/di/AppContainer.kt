@@ -16,6 +16,7 @@ object AppContainer {
     private var expenseRepository: ExpenseRepository? = null
     private var incomeRepository: IncomeRepository? = null
     private var categoryRepository: CategoryRepository? = null
+    private var incomeCategoryRepository: IncomeCategoryRepository? = null
     private var aiRepository: AIRepository? = null
     
     fun initialize(context: Context) {
@@ -34,6 +35,7 @@ object AppContainer {
             expenseRepository = ExpenseRepository(apiService!!, database!!.expenseDao())
             incomeRepository = IncomeRepository(apiService!!, database!!.incomeDao())
             categoryRepository = CategoryRepository(apiService!!, database!!.categoryDao())
+            incomeCategoryRepository = IncomeCategoryRepository(apiService!!)
             aiRepository = AIRepository(apiService!!)
         }
     }
@@ -52,6 +54,10 @@ object AppContainer {
     
     fun getCategoryRepository(): CategoryRepository {
         return categoryRepository ?: throw IllegalStateException("AppContainer not initialized")
+    }
+
+    fun getIncomeCategoryRepository(): IncomeCategoryRepository {
+        return incomeCategoryRepository ?: throw IllegalStateException("AppContainer not initialized")
     }
     
     fun getAIRepository(): AIRepository {

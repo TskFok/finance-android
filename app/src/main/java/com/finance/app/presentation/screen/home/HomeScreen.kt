@@ -1998,13 +1998,24 @@ fun AddIncomeScreen(
     onBack: () -> Unit = {}
 ) {
     var amount by remember { mutableStateOf("") }
-    var selectedType by remember { mutableStateOf<String?>(null) }
+    var selectedCategory by remember { mutableStateOf<com.finance.app.data.model.IncomeCategory?>(null) }
     var typeExpanded by remember { mutableStateOf(false) }
     var showSuccessMessage by remember { mutableStateOf(false) }
     
-    // 收入类型列表
-    val incomeTypes = remember {
-        listOf("工资", "奖金", "投资收益", "其他收入")
+    val incomeCategoryRepository = com.finance.app.di.AppContainer.getIncomeCategoryRepository()
+    val incomeCategoriesState = remember { mutableStateOf<List<com.finance.app.data.model.IncomeCategory>>(emptyList()) }
+    
+    LaunchedEffect(Unit) {
+        incomeCategoryRepository.getIncomeCategories().collect { resource ->
+            when (resource) {
+                is com.finance.app.util.Resource.Success -> {
+                    resource.data?.let { categories ->
+                        incomeCategoriesState.value = categories
+                    }
+                }
+                else -> {}
+            }
+        }
     }
     
     Column(
@@ -2069,7 +2080,7 @@ fun AddIncomeScreen(
             onExpandedChange = { typeExpanded = !typeExpanded }
         ) {
             OutlinedTextField(
-                value = selectedType ?: "",
+                value = selectedCategory?.name ?: "",
                 onValueChange = {},
                 readOnly = true,
                 label = { Text("收入类型", style = MaterialTheme.typography.bodyMedium) },
@@ -2101,11 +2112,11 @@ fun AddIncomeScreen(
                 expanded = typeExpanded,
                 onDismissRequest = { typeExpanded = false }
             ) {
-                incomeTypes.forEach { type ->
+                incomeCategoriesState.value.forEach { category ->
                     DropdownMenuItem(
-                        text = { Text(type) },
+                        text = { Text(category.name) },
                         onClick = {
-                            selectedType = type
+                            selectedCategory = category
                             typeExpanded = false
                         }
                     )
@@ -2116,12 +2127,12 @@ fun AddIncomeScreen(
         // 保存按钮
         Button(
             onClick = {
-                if (amount.isNotBlank() && selectedType != null) {
+                if (amount.isNotBlank() && selectedCategory != null) {
                     val amountValue = amount.toDoubleOrNull() ?: 0.0
                     val currentTime = DateUtils.getCurrentDateTime()
-                    viewModel.createIncome(amountValue, selectedType!!, currentTime)
+                    viewModel.createIncome(amountValue, selectedCategory!!.name, currentTime)
                     amount = ""
-                    selectedType = null
+                    selectedCategory = null
                     showSuccessMessage = true
                     // 保存成功后延迟返回
                     kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Main).launch {
@@ -2133,7 +2144,7 @@ fun AddIncomeScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
-            enabled = amount.isNotBlank() && selectedType != null,
+            enabled = amount.isNotBlank() && selectedCategory != null,
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary,

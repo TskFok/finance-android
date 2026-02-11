@@ -26,6 +26,9 @@ interface ApiService {
     // Categories
     @GET("api/v1/categories")
     suspend fun getCategories(): Response<ApiResponse<List<ExpenseCategory>>>
+
+    @GET("api/v1/income-categories")
+    suspend fun getIncomeCategories(): Response<ApiResponse<List<IncomeCategory>>>
     
     // Expenses
     @GET("api/v1/expenses")
