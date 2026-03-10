@@ -26,6 +26,7 @@ local.properties
 *.iml
 *.ipr
 *.iws
+captures/
 
 # Keystore files (important!)
 *.jks
@@ -43,3 +44,16 @@ obj/
 
 # Firebase / Google Services
 google-services.json
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Profiling / debugging
+*.hprof
+
+# Editor / IDE
+*.swp
+*.swo
+*~
